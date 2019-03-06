@@ -1,37 +1,47 @@
 'use strict';
 
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
+import stylePropType from 'react-style-proptype';
 import {
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  ListView
+    Text,
+    TouchableOpacity,
+    View,
+    Image,
+    ListView
 } from 'react-native';
 
 import BaseComponent from './BaseComponent'
 import Styles from './styles'
 
 const propTypes = {
-    options: React.PropTypes.array.isRequired,
-    selectedOptions: React.PropTypes.array,
-    maxSelectedOptions: React.PropTypes.number,
-    onSelection: React.PropTypes.func,
-    renderIndicator: React.PropTypes.func,
-    renderSeparator: React.PropTypes.func,
-    renderRow: React.PropTypes.func,
-    renderText: React.PropTypes.func,
-    style: View.propTypes.style,
-    optionStyle: View.propTypes.style,
+    options: PropTypes.array.isRequired,
+    selectedOptions: PropTypes.array,
+    maxSelectedOptions: PropTypes.number,
+    onSelection: PropTypes.func,
+    onSelectionIndex: PropTypes.func,
+    renderIndicator: PropTypes.func,
+    renderSeparator: PropTypes.func,
+    renderRow: PropTypes.func,
+    renderText: PropTypes.func,
+    style: stylePropType,
+    optionStyle: stylePropType,
+    optionText: stylePropType,
+    optionIndicatorStyle: stylePropType,
+    renderSeparatorStyle: stylePropType,
     disabled: PropTypes.bool
 };
 const defaultProps = {
     options: [],
     selectedOptions: [],
     onSelection(option){},
+    onSelectionIndex(option){},
     style:{},
     optionStyle:{},
-    disabled: false
+    optionIndicatorStyle:{},
+    disabled: false,
+    renderSeparatorStyle: {},
+    optionText: {}
 };
 
 class MultipleChoice extends BaseComponent {
@@ -52,8 +62,12 @@ class MultipleChoice extends BaseComponent {
             '_renderRow',
             '_selectOption',
             '_isSelected',
-            '_updateSelectedOptions'
+            '_updateSelectedOptions',
         );
+    }
+
+    _selectedOptions(){
+        return this.state.selectedOptions;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -96,6 +110,11 @@ class MultipleChoice extends BaseComponent {
 
         //run callback
         this.props.onSelection(selectedOption);
+
+        //Call back for selectedIndex
+        const optionIndex = this.props.options.findIndex((x)=>x===selectedOption)
+
+        this.props.onSelectionIndex(optionIndex);
     }
 
     _isSelected(option) {
@@ -123,7 +142,7 @@ class MultipleChoice extends BaseComponent {
             return this.props.renderSeparator(option);
         }
 
-        return (<View style={Styles.separator}></View>);
+        return (<View style={[Styles.separator, this.props.renderSeparatorStyle]}></View>);
     }
 
     _renderText(option) {
@@ -153,8 +172,12 @@ class MultipleChoice extends BaseComponent {
                         <View
                             style={Styles.row}
                         >
-                            <View style={Styles.optionLabel}>{this._renderText(option)}</View>
-                            <View style={Styles.optionIndicator}>{this._renderIndicator(option)}</View>
+                            <View style={Styles.optionLabel}>
+                                <Text style={[Styles.optionTextDefault, this.props.optionText]}>
+                                    {this._renderText(option)}
+                                </Text>
+                            </View>
+                            <View style={[Styles.optionIndicator, this.props.optionIndicatorStyle]}>{this._renderIndicator(option)}</View>
                         </View>
                     </View>
                 </TouchableOpacity>
