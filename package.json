@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/d-a-n/react-native-multiple-choice/issues"
   },
-  "homepage": "https://github.com/d-a-n/react-native-multiple-choice#readme"
+  "homepage": "https://github.com/d-a-n/react-native-multiple-choice#readme",
+  "dependencies": {
+    "react-style-proptype": "^3.2.2"
+  }
 }
