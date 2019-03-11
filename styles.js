@@ -16,7 +16,9 @@ export default React.StyleSheet.create({
         width: 40,
         height: 30,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#000'
     },
 
     optionIndicatorIcon: {
