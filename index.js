@@ -8,8 +8,8 @@ import {
     TouchableOpacity,
     View,
     Image,
-    ListView
 } from 'react-native';
+import ListView from 'deprecated-react-native-listview'
 
 import BaseComponent from './BaseComponent'
 import Styles from './styles'

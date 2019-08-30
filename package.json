@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/d-a-n/react-native-multiple-choice#readme",
   "dependencies": {
+    "deprecated-react-native-listview": "0.0.5",
     "react-style-proptype": "^3.2.2"
   }
 }
